@@ -39,8 +39,10 @@ public class MyWorld extends World
        drawGrid(grid2d, 0, 0);
        grid2dIdentity = duplicateGrid(grid2d);
        drawGrid(grid2dIdentity, 7,0);
-       
-       drawGrid(grid2dAve(grid2d), 14, 0);
+       grid2dSplitDiag = grid2dDiag(grid2d);
+       drawGrid(grid2dSplitDiag, 0, -7);
+       grid2dAve = grid2dAve(grid2d);
+       drawGrid(grid2dAve, 14, 0);
        rowAve = grid2dToRowAve(grid2d);
        drawRow(rowAve, 15, 15);
 
@@ -117,6 +119,29 @@ public class MyWorld extends World
       for (int i=0;i<g.length;i++){
           for (int j=0;j<g[i].length;j++){    
               d[i][j]= new Square(ave);
+            }
+        }
+        return d;
+    }
+    public Square[][] grid2dDiag(Square[][]g){
+        Square[][]d = new Square[sz][sz];
+        int sum = 0;
+        int ave = 0;
+        for (int i=0;i<sz;i++){
+          for (int j=0;j<sz;j++){   
+                sum += g[i][j].getTransparency(); 
+            }
+        }
+        ave = sum/(g.length * g[0].length);
+        for(int i = 0; i < sz; i++){
+          d[i][i] = new Square(ave);
+        }
+        
+        for(int i = 0; i<sz; i++){
+            for(int j = 0; j<sz; j++){
+                if(g[i][j].getTransparency() < ave){
+                    
+                }
             }
         }
         return d;
