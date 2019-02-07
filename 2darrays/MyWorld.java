@@ -40,7 +40,7 @@ public class MyWorld extends World
        grid2dIdentity = duplicateGrid(grid2d);
        drawGrid(grid2dIdentity, 7,0);
        grid2dSplitDiag = grid2dDiag(grid2d);
-       drawGrid(grid2dSplitDiag, 0, -7);
+       drawGrid(grid2dSplitDiag, 0, 7);
        grid2dAve = grid2dAve(grid2d);
        drawGrid(grid2dAve, 14, 0);
        rowAve = grid2dToRowAve(grid2d);
@@ -125,27 +125,46 @@ public class MyWorld extends World
     }
     public Square[][] grid2dDiag(Square[][]g){
         Square[][]d = new Square[sz][sz];
-        int sum = 0;
-        int ave = 0;
-        for (int i=0;i<sz;i++){
-          for (int j=0;j<sz;j++){   
-                sum += g[i][j].getTransparency(); 
-            }
-        }
-        ave = sum/(g.length * g[0].length);
+        int sumD = 0;
+        int aveD = 0;
+        int sumB = 0;
+        int aveB = 0;
+        int sumA = 0;
+        int aveA = 0;
         for(int i = 0; i < sz; i++){
-          d[i][i] = new Square(ave);
+          sumD += g[i][i].getTransparency();
+        }
+        aveD = sumD/5;
+        for(int i =0; i <sz; i++){
+            d[i][i] = new Square(aveD);
         }
         
-        for(int i = 0; i<sz; i++){
-            for(int j = 0; j<sz; j++){
-                if(g[i][j].getTransparency() < ave){
-                    
-                }
+        for(int c = 0; c < sz-1; c++){
+            for(int r = c+1; r < sz; r++){
+                sumB += g[c][r].getTransparency();
+            }
+        }
+        aveB = sumB/10;
+        for(int c = 0; c < sz-1; c++){
+            for(int r = c+1; r < sz; r++){
+                d[c][r]= new Square(aveB);
+            }
+        }
+        
+        for(int c = 1; c < sz; c++){
+            for(int r = 0; r < c; r++){
+                sumA += g[c][r].getTransparency();
+            }
+        }
+        aveA= sumA/10;
+        for(int c = 1; c < sz; c++){
+            for(int r = 0; r < c; r++){
+                d[c][r]= new Square(aveA);
             }
         }
         return d;
-    }
+   }
+   
    public Square[] grid2dToRowAve(Square[][] g){
       Square[] d = new Square[g[0].length];
       int sum = 0;
